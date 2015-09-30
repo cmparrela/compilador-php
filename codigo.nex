@@ -1,0 +1,8 @@
+@tempo_aquecimento = 9 ;
+@potencia = "baixa" ;
+@btn_finalizar "false" ;
+
+WHILE: ( @tempo_aquecimento <>: 0 OR @btn_finalizar ==: 'true' ) {
+	@tempo_aquecimento--;
+	print: 'falta' . @tempo_aquecimento . 'para_terminar' ;
+}
