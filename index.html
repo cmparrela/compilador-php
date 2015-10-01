@@ -25,10 +25,11 @@
                         </div>
                         <div class="panel-body">
                             <form method="post" class="form-inline">
-                                <div class="form-group">
-                                    <input type="file" style="padding-top: 10px" id="path_arquivo">
+                                <div class="form-group" id="ctn_input">
+                                    <input type="file" style="padding-top: 10px" id="path_arquivo" name="path_arquivo" accept=".nex">
+                                    <input type="text" hidden="" id="nome_arquivo">
                                 </div>
-                                <button type="button" class="btn btn-primary pull-right" onclick="carrega_codigo()">Carregar Código</button>
+                                <button type="button" class="btn btn-primary pull-right" onclick="upload_codigo()">Carregar Código</button>
                             </form>
                         </div>
                     </div>
@@ -46,6 +47,16 @@
                 <div class="col-md-6">
                     <div class="panel panel-default">
                         <div class="panel-heading">
+                            <h3 class="panel-title">Arquivos</h3>
+                        </div>
+                        <div class="panel-body" id="lista_arquivos"></div>
+                    </div>
+                </div>
+             </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
                             <h3 class="panel-title">Tabela de símbolos</h3>
                         </div>
                         <div class="panel-body" id="tabela_simbolos"></div>
@@ -54,12 +65,12 @@
                 <div class="col-md-6">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            <h3 class="panel-title">Código</h3>
+                            <h3 class="panel-title" id="titulo_codigo"> </h3>
                         </div>
                         <div class="panel-body" id="codigo"></div>
                         <div class="panel-footer">
                             <button type="button" class="btn btn-primary" id="btn_compilar"onclick="carrega_compilador()" >Compilar</button>
-                            <button type="button" class="btn btn-default" onclick="edita_codigo()">Editar</button>
+                            <button type="button" class="btn btn-default" id="btn_editar" onclick="edita_codigo()">Editar</button>
                             <button type="button" class="btn btn-default" id="btn_salvar" onclick="salva_codigo()" style="display: none">Salvar</button>
                             <button type="button" class="btn btn-default" id="btn_cancelar"onclick="carrega_codigo()" style="display: none">Cancelar</button>
                         </div>

@@ -9,7 +9,12 @@ function array_args(){
     return argumentos.join('&');
 };
 //----------------------------------------------------------------------------//
-function ajax(link,par,callback){
+function ajax(url,par,callback, tipo){
+    tipo = tipo || 'GET';
+    
+    if(typeof par == 'object'){
+        tipo = 'POST';
+    }
     var xmlHttp = null;
     
     if (window.XMLHttpRequest) {
@@ -26,17 +31,28 @@ function ajax(link,par,callback){
         }
     }
     
-    if(par != 'undefined'){
-        var url = link + '?' + par;
+    if(tipo == 'GET'){
+        if(par != 'undefined'){
+            url = url + '?' + par;
+        }
+        xmlHttp.open(tipo, url, true);
+        xmlHttp.setRequestHeader('content-type','text/html; charset=utf-8');
+    }else{
+        xmlHttp.open(tipo, url, true);
+        if(typeof par != 'object'){
+          xmlHttp.setRequestHeader('content-type','application/x-www-form-urlencoded; charset=utf-8');
+        }
     }
-    xmlHttp.onreadystatechange = function () {
+    
+    xmlHttp.setRequestHeader('Cache-Control','no-store, no-cache, must-revalidate');
+    xmlHttp.onreadystatechange = function (){
         if(xmlHttp.readyState == 4){
-            if (xmlHttp.status == 200) {                                        //STATUS 200: 'OK'
+            if (xmlHttp.status == 200){
                 callback(xmlHttp.responseText);
+            }else{
+                callback(xmlHttp.status, xmlHttp.statusText);
             }
         }
     }
-    xmlHttp.open('GET', url, true);
-    xmlHttp.setRequestHeader('content-type','text/html; charset=utf-8');
-    xmlHttp.send();
+    xmlHttp.send(par);
 };

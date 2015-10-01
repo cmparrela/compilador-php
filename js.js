@@ -7,26 +7,43 @@ function carrega_simbolos(){
 };
 
 //------------------------------------------------------------------------------
-function carrega_codigo(){
+function carrega_arquivos(){
+    function retorno(ret){
+        id("lista_arquivos").innerHTML = ret;
+    }
+    ajax('php/carrega_arquivos.php', null, retorno);
+};
+
+//------------------------------------------------------------------------------
+function carrega_codigo(a){
+    id("btn_editar").style.display = 'inline';
+    
+    if(a){
+      //caso escolha um arquivo da lista
+      id('nome_arquivo').value = a;
+    }
+    
     function retorno(ret){
         // exibe e oculta os elementos
         id("btn_salvar").style.display = 'none';
         id("btn_cancelar").style.display = 'none';
         id("btn_compilar").disabled = false;
         
+        id('path_arquivo').value = '';
+        id("titulo_codigo").innerHTML = id('nome_arquivo').value;
         id("codigo").innerHTML = '<pre>'+ret+'</pre>';
     }
-    if(id('path_arquivo').value == ''){
+    if(id('nome_arquivo').value == ''){
         alert("Envie um arquivo primeiro");
         return;
     }
-    var strpar = array_args('codigo', id('path_arquivo').files[0].name);
+    var strpar = array_args('codigo', id('nome_arquivo').value);
     ajax('php/codigo.php', strpar, retorno);
 };
 
 //------------------------------------------------------------------------------
 function edita_codigo(){
-    
+    id("btn_editar").style.display = 'none';
     function retorno(ret){
         // exibe e oculta os elementos
         id("btn_salvar").style.display = 'inline';
@@ -35,21 +52,38 @@ function edita_codigo(){
         
         id("codigo").innerHTML = '<pre contenteditable="true">'+ret+'</pre>';
     }
-    var strpar = array_args('codigo', id('path_arquivo').files[0].name);
+    var strpar = array_args('codigo', id('nome_arquivo').value);
     ajax('php/codigo_editar.php', strpar, retorno);
-}
+};
 
 //------------------------------------------------------------------------------
+function upload_codigo(){
+    upload_arquivo('path_arquivo', 'php/upload_arquivo.php');
+};
+
+function retorno_upload(ret){
+    carrega_arquivos();
+    
+    ret = JSON.parse(ret);
+    ret.COD == 0 ? alert('Arquivo Enviado com Sucesso!') : alert('Erro ao Enviar o Arquivo!');
+    
+    if(!id('nome_arquivo').value){
+        id('nome_arquivo').value = ret.NOME;
+    }
+    
+    carrega_codigo();
+};
+//------------------------------------------------------------------------------
 function salva_codigo(){
-    //var novo_codigo = id('novo_codigo').value;
     var novo_codigo = id('codigo').firstElementChild.innerText;
     
     function retorno(ret){
+        id("btn_editar").style.display = 'inline';
         carrega_codigo();
     }
-    var strpar = array_args('novo_codigo', novo_codigo);
+    var strpar = array_args('novo_codigo', novo_codigo, 'arquivo', id('nome_arquivo').value);
     ajax('php/codigo_salvar.php', strpar, retorno);
-}
+};
 
 //------------------------------------------------------------------------------
 function carrega_compilador(){
@@ -74,10 +108,11 @@ function carrega_compilador(){
             }
         }
     }
-    var strpar = array_args('arquivo', id('path_arquivo').files[0].name);
+    var strpar = array_args('arquivo', id('nome_arquivo').value);
     ajax('php/compila.php', strpar, retorno);
 };
 
 
 var erro_referencia = [];                                                       //DECLARA ARRAY ERRO REFERENCIA
 carrega_simbolos();
+carrega_arquivos();

@@ -26,7 +26,7 @@ for ($i = 0; $i < count($token); $i++) {
         if (!in_array($token[$i][$a], $simbolos) && !is_numeric($token[$i][$a]) && $token[$i][$a] != '') {
 
             //verifica se o token inexistente n�o � uma string ou seja se est� entre aspas e se n�o � uma variavel
-            if (!preg_match('/".*?"|\'.*?\'/', $token[$i][$a]) && !preg_match("/^@(.+)$/", $token[$i][$a])) {
+            if (!preg_match("/^'(.+)'$/", $token[$i][$a]) && !preg_match("/^@(.+)$/", $token[$i][$a])) {
                 $mensagem_erro[] = ARRAY('MSG'=>'Erro Linha '.$i.': Não foi encontrado <b>' . $token[$i][$a] . '</b> na tabela de símbolos.<br>','ERRO'=> $i);
             }
             
