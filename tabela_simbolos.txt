@@ -15,4 +15,3 @@ or
 print:
 ;
 .
-whirrrle:
