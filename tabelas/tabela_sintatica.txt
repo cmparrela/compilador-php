@@ -1,0 +1,1 @@
+condicao abreparenteses fechaparenteses fimdecondicao

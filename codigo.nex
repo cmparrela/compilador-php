@@ -1,8 +1,8 @@
-@tempo_aquecimento = 9 ;
-@potencia = 'baixa' ;
-@btn_finalizar 'false' ;
+declara @tempo_aquecimento int = 9 ;
+declara @potencia string = 'baixa' ;
+declara @btn_finalizar boolean = 'false' ;
 
-while: ( @tempo_aquecimento <>: 0 OR @btn_finalizar ==: 'true' ) {
+while: ( @tempo_aquecimento <>: 0 OR @btn_finalizar ==: 'true' ) 
 	@tempo_aquecimento-- ;
 	print: 'falta' . @tempo_aquecimento . 'para_terminar' ;
-}
+endwhile:
